@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderitemwebapidepl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: OrderItemWebApi
+  template:
+    metadata:
+      labels:
+        app: OrderItemWebApi
+    spec:
+      containers:
+      - name: dockersamplerepos2
+        image: orderitemcr.azurecr.io/dockersamplerepos2:latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: dsconfigsn2
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderitemwebapi
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: OrderItemWebApi
